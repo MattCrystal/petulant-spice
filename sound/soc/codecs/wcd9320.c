@@ -4265,21 +4265,6 @@ unsigned int taiko_read(struct snd_soc_codec *codec,
 
 	val = wcd9xxx_reg_read(&wcd9xxx->core_res, reg);
 	return val;
-	
-#ifdef CONFIG_SOUND_CONTROL_HAX_3_GPL
-	if (!snd_hax_reg_access(reg)) {
-		if (!((val = snd_hax_cache_read(reg)) != -1)) {
-			val = wcd9xxx_reg_read_safe(codec->control_data, reg);
-		}
-	} else {
-		snd_hax_cache_write(reg, value);
-		val = value;
-	}
-	return wcd9xxx_reg_write(codec->control_data, reg, val);
-#else
-	return wcd9xxx_reg_write(codec->control_data, reg, value);
-#endif
-
 }
 #ifdef CONFIG_SOUND_CONTROL_HAX_3_GPL
 EXPORT_SYMBOL(taiko_read);
